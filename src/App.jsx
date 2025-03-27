@@ -16,11 +16,17 @@ function App() {
   function handleOnChange(value,idx){
     if(isNaN(value)) return;
     let newCount = [...count];
-    newCount[idx] = value;
+    newCount[idx] = value.slice(-1);
     setCount(newCount)
 
     if(value && idx < OTP_Length-1){
       refArr.current[idx+1].focus();
+    }
+  }
+
+  function handleOnKeyDown(e,idx){
+    if(!e.target.value && e.key === "Backspace"){
+      idx >= 0 && refArr.current[idx-1]?.focus();
     }
   }
 
@@ -37,7 +43,6 @@ function App() {
             value={count[idx]}
             onChange={(e)=> handleOnChange(e.target.value,idx)}
             onKeyDown={(e) => handleOnKeyDown(e,idx)}
-            maxLength={1}
           />
         ))
       }
